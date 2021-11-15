@@ -73,7 +73,6 @@ DFS(Graph G,int V)
            DFS_Traversal(G, v, status);
    return;
 }
- 
 DFS_Traversal(Graph G, int v, int* status)
 {
    status[v] = 1;
@@ -81,7 +80,6 @@ DFS_Traversal(Graph G, int v, int* status)
        if(status[u] == 0)
            DFS_Traversal(G,u,status);
    status[v] = 2;
- 
    return;
 }
 
@@ -100,4 +98,72 @@ To check if the graph is bipartite
 Find a path between two given vertices.
 
 Breadth-First Search: 
-	
+	BFS is also an algorithm to search in or traverse a graph. As the name suggests it visits all the nodes that are present at the same level first and then advances to the next level.This continues till all the nodes of the graph or visited or stops when we find the required node.
+	This can be used in both directed and undirected graphs.
+Algorithm: 
+We maintain a status array to find out whether the node is not-visited, seen or visited. And we also maintain a queue
+Now we choose a node (start node) and then push it’s neighbours on to the queue and then pop an element from the queue and push it’s neighbours on to the queue and so on.. 
+We do this till all the nodes are reached from the point and then we choose another node from the graph that is not visited and repeat the same process till all the nodes in the graph are visited. 
+The status of the node that is not visited is set as 0 and the status of the node that is in the queue is set as 1 and the node that is popped from the queue is set as 2.
+The order of popping the elements is the required BFS traversal.
+Let us see an example to see the working of the algorithm.
+Example: 
+Consider an undirected graph G shown below
+
+Initially the status array is initialized to 0. Now we start with 1 and push it on to the queue and update its status.
+
+Now we pop 1 from the queue and push its neighbours 2 3 5 onto the queue and update the status of nodes 1, 2, 3 and 5 to 2, 1, 1 and 1 respectively.
+
+Now we pop 2 from the queue and push its neighbours onto the queue and update their status.
+
+As there are no neighbours for 3 we just pop 3 from the queue and update the status.
+ 
+Now we pop 5 from the queue and push 6 onto the queue and update their status. 
+
+As there are no neighbours for 4 we just pop 4 from the queue and update the status.
+
+As there are no neighbours for 6 we just pop 6 from the queue and update the status.
+
+Now, All the nodes of the graph are visited.The BFS traversal is 1 2 3 5 4 6.
+Pseudo Code:
+BFS(Graph G, int V)
+{
+   vector<int> status(V+1, 0);     // status array
+   queue<int> que;         // queue
+   for every vertex s ∈ V  // V = set of vertices of G
+       if(status[s] == 0)
+           que.push(s);
+           status[s] = 1;
+           BFS_Traversal(G, status, que);
+   return;
+}
+BFS_Traversal(Graph G, vector<int> &status, queue<int> &que)
+{
+   while queue is not empty
+       int v = que.front();
+       que.pop();
+       // pushing the neighbours of v into queue
+       for every u ∈ Adj[v]      // => there is a vertex from v to u
+           if(status[u] == 0)
+               que.push(u);
+               status[u] = 1;      // u is seen
+       status[v] = 2;          // v is visited 
+   return;
+}
+Code Implementation:
+	// vscode
+Analysis:
+Time Complexity: 
+	Each vertex of the graph is pushed and popped from the queue exactly once.The operations pushing and popping from the queue are constant time operations.So, the time taken to do this is O(V). 
+	For each vertex we are checking all the neighbours. So, in total we are checking all the edges in the graph and the time taken to do this is O(E). 
+	Thus, Overall time taken by the algorithm is O(V+E) where V = no.of vertices and E = no.of edges of the graph.
+Space Complexity: 
+	As we are maintaining an array and queue which in the worst case may contain V-1 elements. The space complexity of BFS is O(V).
+Applications: 
+Cycle detection in undirected graphs
+To test if a graph is bipartite
+Find path between two vertices 
+GPS navigation systems to find all neighbouring places.
+Shortest path in undirected graph.
+
+// shortest path 	-- Dijkstra, bellman ford, Flloyd warshal
