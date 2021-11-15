@@ -1,0 +1,103 @@
+
+
+
+
+
+
+   BOOK 
+
+  ON GRAPH 
+
+  ALGORITHMS	
+
+
+Algorithms Analysis & Design Project
+
+
+
+
+
+Chapter 1: Introduction
+
+Graph Data Structure: 
+	A non linear data structure that consists of nodes (vertices) and edges. Edges are lines that connect a node to another node or to itself in a graph. Formally, Graph contains a finite set of nodes (vertices) and a set of edges which connect a pair of nodes.
+
+In this book we assume that the vertices of the graph are indexed from 1. 
+Chapter 2: Search and Sort
+Searching a Graph
+Two Algorithms that are widely used to search in a graph are Depth-First Search (DFS) and Breadth-First Search (BFS)
+
+Depth-First Search: 
+DFS is an algorithm for searching or traversing a graph both directed or undirected.
+	As the name suggests it searches as deeper as possible in the graph. 
+IDEA: 
+	Visits all the nodes that are not visited from recently visited node and if all the vertices that are reachable from the vertex are seen then it recurses back. Here, when we reach a node it is marked as seen, and is marked as visited when all the nodes that are reachable from the node are seen.
+	Here we maintain  the information about whether the node is seen or not because the graph may contain cycles. If the cycle is present in a graph then we may visit the node twice and keep on moving in the loop if we don't maintain the information whether the node is visited or not.
+Let us see an example to see the working of the algorithm. 
+Example: 
+	Consider a directed graph G shown below 
+	      Here initially all the nodes are marked as not visited.Now lets start the algorithm from node 1. 
+Now, we mark the node 1 as seen and move to the next node that can be reached (node 2).
+ 
+Now, we mark the node 2 as seen and move to the next node that can be reached from 2 and as there are two nodes 3 and 5 we choose the left node.
+
+Now as there are no nodes that can be reached from 5 we mark the node 5 as visited and recurse back to 2. And we move to node 3 that can be reached from 2.
+
+Now as all the nodes that are reachable from 3 are seen we mark node 3 as visited and recurse back to node 2.
+ 
+As all the nodes that can be reached from node 2 are seen we recurse back to node 1. 
+
+As all the nodes that are reachable from node 1 are seen we mark 1 as visited. And as we cannot recurse back from 1 we check whether all nodes in the graph are visited and select the node that is not visited. So, now we select the node 4.
+
+Now, we mark 4 as seen and move to node 6 (node that is reachable from 4).
+
+Now as there are no nodes that can be reached from 6 we mark 6 as visited and recurse back to 4.
+
+As all the nodes that are reachable from 4 are seen we mark 4 as visited. As there are no nodes to recurse back and all the nodes of the graph are seen the final output of the traversal is 
+	1,2,5,3,4,6.
+There can be multiple traversals and the Algorithm gives one the traversal. The other traversals for the above graph can be (4,1,2,5,3,6); (6,4,1,2,5,3); … 
+ 
+Algorithm: 
+We maintain an array to know the status of the node (not-visited, seen or visited). Then mark every vertex of the graph as not-visited.
+And every non visited vertex in the graph is passed as an argument to the function DFS_Traversal()
+In the function DFS_Traversal() we mark the non-visited node as seen and then we move to the vertices that can be reached from the node. And do the same.
+After performing this on all the vertices that can be reached we mark the root vertex as visited.
+
+Pseudo Code:
+DFS(Graph G,int V)
+{
+   // status[i] = 0 => not visited, 1 => seen, 2 => visited
+   int status[V+1] = {0}; // V = no.of Vertices
+   for every vertex v ∈ V  // V = set of vertices of G
+       if(status[v] == 0)
+           DFS_Traversal(G, v, status);
+   return;
+}
+ 
+DFS_Traversal(Graph G, int v, int* status)
+{
+   status[v] = 1;
+   for every u ∈ Adj[v] // => there is a vertex from v to u
+       if(status[u] == 0)
+           DFS_Traversal(G,u,status);
+   status[v] = 2;
+ 
+   return;
+}
+
+Code Implementation:
+ 	# check vscode.
+Analysis
+Time Complexity:
+	According to the algorithm DFS_Traversal() is called for each vertex exactly once and in the function we check all the edges from the vertex. So, we are checking all the edges of the graph. 
+	Thus, Time complexity of the Algorithm is O(V+E) where V = number of vertices of the graph and E = number of the edges of the graph
+Space Complexity: 
+As we are maintaining an additional array of size V+1 to store the information about whether the node is visited or not. The Space Complexity of the algorithm is O(V).
+Applications:
+Helps to find Strongly connected components in a graph.
+Detect a cycle in a graph 
+To check if the graph is bipartite
+Find a path between two given vertices.
+
+Breadth-First Search: 
+	
