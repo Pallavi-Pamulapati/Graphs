@@ -24,7 +24,7 @@ Graph Data Structure:
 
 In this book we assume that the vertices of the graph are indexed from 1. 
 Chapter 2: Search and Sort
-Searching a Graph
+Searching or Traversing a Graph
 Two Algorithms that are widely used to search in a graph are Depth-First Search (DFS) and Breadth-First Search (BFS)
 
 Depth-First Search: 
@@ -165,5 +165,67 @@ To test if a graph is bipartite
 Find path between two vertices 
 GPS navigation systems to find all neighbouring places.
 Shortest path in undirected graph.
+Sorting a graph:
+Topological Sort: 
+Topological sort is to linearly order vertices of a graph in such a way that if there is an edge from u to v then u comes before v in the ordering. And this sorting is only possible if a graph is directed acyclic graph (DAG). 
+Algorithm:
+We start with a node and recurse for all its adjacent vertices and mark a node as visited if all its adjacent vertices are visited. 
+Similar to DFS and BFS we maintain an array to know whether the vertex is visited or not.
+We also maintain a stack and push a node that is visited onto the stack. 
+We continue this till all the vertices of the graph are pushed onto the stack. Then we pop the elements of the stack and print them to get the sorted order of vertices of the graph.
+Let us see an example to see the working of the algorithm.
+Example: 
+Consider the DAG G shown below.
+
+Now let's start from node 1 as its adjacent nodes 2, 3 and 4 are not visited. And move to one of them. Let say node 2
+
+Now we check the adjacent vertices of 2 and as they are not visited we move node 4 (adjacent vertex of 2).
+
+Now we check the adjacent vertices of 4 and as they are not visited we move node 5 (adjacent vertex of 4). As there are no adjacent nodes for node 5 we mark 5 as visited and push it onto the stack.
+
+Now we recurse back to node 4 and as all the adjacent nodes of node 4 are visited we mark 4 as visited and push it onto the stack.
+
+Again we recurse back to node 2 and as all its adjacent nodes are visited we push it onto the stack and mark it as visited.
+
+Then we recurse back to node 1 and as node 3 that is adjacent to node 1 is not visited we move to node 3.
+
+As all the adjacent vertices of node 3 are visited we mark it as visited and push it onto stack and recurse back to node 1.
+
+Now as all its adjacent nodes are visited we push 1 onto the stack.
+
+There is no node to recurse back and as all the vertices are pushed onto the stack we pop out the stack to get the order. Here the order is 1 3 2 4 5
+Pseudo Code:
+Topological_Sort(Graph G,int v,vector<bool>& status,stack<int>& stck)
+{
+   for every u ∈ Adj[v]        // for every adjacent node of v
+       if(status[u] == 0)  // if u is not visited
+           Topological_Sort(G,u,status,stck);
+  
+   stck.push(v);     // push onto stack
+   status[v] = 1;      // mark v as visited
+ 
+   return;
+}
+TSort(Graph G, int V)
+{
+vector<bool> status(V+1, 0);
+stack <int> stck;
+ 
+for every vertex v ∈ V
+   		if(status[v] == 0)
+       		Topological_Sort(G,v,status,stck);
+	return;
+}
+
+Code Implementation: 
+// vscode
+Analysis:
+Time Complexity: 
+	The Algorithm is similar to DFS as we are performing the traversal and pushing the node onto the stack without printing it. And the push and pop operations  are constant time operations.So, the time complexity of the algorithm is the same as time complexity of DFS, that is O(V+E) where V = no.of vertices and E = no.of edges.
+Space Complexity: 
+	The space complexity of the algorithm is O(V) as we are maintaining a stack whose maximum length is V. 
+Applications:
+Used for scheduling jobs from the given dependencies among them.
+Used to order compilation tasks.
 
 // shortest path 	-- Dijkstra, bellman ford, Flloyd warshal
