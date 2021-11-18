@@ -229,3 +229,53 @@ Used for scheduling jobs from the given dependencies among them.
 Used to order compilation tasks.
 
 // shortest path 	-- Dijkstra, bellman ford, Flloyd warshal
+
+Finding Shortest Path
+	In our daily life, finding the shortest path between two places is important inorder to reach the destination earlier. This problem can be solved using graph algorithms (Bellman-Ford Algorithm, Dijkstra and Floyd-Warshall Algorithm).
+	Here Bellman-Ford and Dijkstra are single source shortest path algorithms where Folyd-Warshall is All pair shortest path algorithm.
+	In an unweighted graph we can easily find the shortest path using BFS as the length of the path is equal to the number of edges in the path. To find the shortest path in a weighted graph we use the above mentioned algorithms. 
+
+Bellman-Ford Algorithm
+	Finds the shortest path from the given starting point(source) to all other points in the graph. 
+IDEA: 
+	We initially assume that all points are at infinite distance from the source and then we reduce the distances by finding edges that decrease the length of the path until it finds the actual shortest path. 
+This Algorithm works for all the graphs and if there are any negative cycles in the graph it detects them. As if there is a negative cycle in the graph then the shortest path is not defined because we can loop multiple times and reduce the path further.
+Let us see an example to see the working of the algorithm. 
+Example: 
+Consider an indirect graph G = (V, E) shown below.
+Algorithm:
+Initialize elements of array(distance) of length |V| to infinity and distance[source] to zero.
+Then for every edge (u,v) in the graph check if distance[v] is greater than distance[u] + weight of the edge between u and v. If this is true then update the value of distance[v] to distance[u] + weight of the edge between u and v. Repeat this |V|-1 times. 
+The values in the array are shortest distances from the source to the corresponding point if there is no negative cycle. 
+Now, repeat the loop once more, if the distances decrease then there is a negative cycle in the graph. Otherwise the values in the array are the shortest distances from the source. 
+Pseudo Code:
+Bellman_Ford(Graph G, int s, int V)
+{
+   vector<int> distance(V+1, INFINITE);
+   distance[s] = 0;
+ 
+   for(int i = 1;i < V; i++)
+       for every (u,v,w) ∈ E    // here w is the weight of the edge
+           if(distance[v] > distance[u] + w && distance[u] != INFINITE)
+               distance[v] = distance[u] + w;
+  
+   for every (u,v,w) ∈ E
+       if(distance[v] > distance[u] + w && distance[u] != INFINITE)
+       {  
+           cout << "Negative cycle detected" << endl;
+           return;
+       }
+   for(int i = 1;i <= V+1; i++)
+       cout << distance[i] << " ";
+   cout << endl;
+  
+   return;
+}
+ 
+Code Implementation:
+// check vscode.
+Analysis:
+Time Complexity: 
+As we check all the edges |V| times the time complexity of the algorithm is O(V*E) where V = no.of vertices and E = no.of edges of the graph.
+Space Complexity: 
+As we need to maintain an array of length V, the space complexity of the algorithm is O(V). 
