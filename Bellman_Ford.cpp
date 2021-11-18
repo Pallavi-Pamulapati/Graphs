@@ -36,8 +36,10 @@ void Bellman_Ford(vector<vector<edge_weight>> &Adj_List, int s, int V)
     vector<int> distance(V+1, INFI);
     distance[s] = 0;
     int Neighbours = 0;
+    int check = 0;
     for(int i = 1; i < V; i++)
     {
+        check = 0;
         for(int u = 1; u < V + 1; u++)
         {
             if(distance[u] == INFI)
@@ -47,9 +49,15 @@ void Bellman_Ford(vector<vector<edge_weight>> &Adj_List, int s, int V)
             for(int j = 0; j < Neighbours; j++)
             {
                 if(distance[Adj_List[u][j].vertex] > distance[u] + Adj_List[u][j].weight)
+                {
                     distance[Adj_List[u][j].vertex] = distance[u] + Adj_List[u][j].weight;
+                    check = 1;
+                }
             }
         }
+
+        if(check == 0)
+            break; 
     }
 
     for(int u = 1; u < V + 1; u++)
@@ -69,7 +77,10 @@ void Bellman_Ford(vector<vector<edge_weight>> &Adj_List, int s, int V)
     }
 
     for(int i = 1;i <= V; i++)
-        cout << distance[i] << " ";
+        if(distance[i] != INFI)
+            cout << distance[i] << " ";
+        else 
+            cout << "Not Reachable" << " ";
     cout << endl;
 
     return; 

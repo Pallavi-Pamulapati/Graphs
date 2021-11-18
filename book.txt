@@ -243,11 +243,19 @@ This Algorithm works for all the graphs and if there are any negative cycles in 
 Let us see an example to see the working of the algorithm. 
 Example: 
 Consider an indirect graph G = (V, E) shown below.
+
+Initially the distance from source to all other nodes is considered to be infinity.
+After 1st iteration according to the algorithm we get
+
+And the result after another iteration is also the same. So, the above distance array contains the distances of all the shortest paths from source. 
+
 Algorithm:
 Initialize elements of array(distance) of length |V| to infinity and distance[source] to zero.
 Then for every edge (u,v) in the graph check if distance[v] is greater than distance[u] + weight of the edge between u and v. If this is true then update the value of distance[v] to distance[u] + weight of the edge between u and v. Repeat this |V|-1 times. 
+We can break from the loop if there is no change in the distance array. 
 The values in the array are shortest distances from the source to the corresponding point if there is no negative cycle. 
 Now, repeat the loop once more, if the distances decrease then there is a negative cycle in the graph. Otherwise the values in the array are the shortest distances from the source. 
+We can also get the actual path by maintaining the vertex from which we get the shortest distance along with distance. 
 Pseudo Code:
 Bellman_Ford(Graph G, int s, int V)
 {
@@ -256,7 +264,7 @@ Bellman_Ford(Graph G, int s, int V)
  
    for(int i = 1;i < V; i++)
        for every (u,v,w) ∈ E    // here w is the weight of the edge
-           if(distance[v] > distance[u] + w && distance[u] != INFINITE)
+           if(distance[v] > distance[u]+w && distance[u] != INFINITE)
                distance[v] = distance[u] + w;
   
    for every (u,v,w) ∈ E
@@ -268,7 +276,6 @@ Bellman_Ford(Graph G, int s, int V)
    for(int i = 1;i <= V+1; i++)
        cout << distance[i] << " ";
    cout << endl;
-  
    return;
 }
  
@@ -276,6 +283,7 @@ Code Implementation:
 // check vscode.
 Analysis:
 Time Complexity: 
-As we check all the edges |V| times the time complexity of the algorithm is O(V*E) where V = no.of vertices and E = no.of edges of the graph.
+As In the worst case we check all the edges |V| times the time complexity of the algorithm is O(V*E) where V = no.of vertices and E = no.of edges of the graph.
+The best case time complexity of the algorithm is O(E) here we get all the shortest paths in one iteration. 
 Space Complexity: 
-As we need to maintain an array of length V, the space complexity of the algorithm is O(V). 
+As we need to maintain an array of length V, the space complexity of the algorithm is O(V).
