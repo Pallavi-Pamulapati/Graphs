@@ -287,3 +287,88 @@ As In the worst case we check all the edges |V| times the time complexity of the
 The best case time complexity of the algorithm is O(E) here we get all the shortest paths in one iteration. 
 Space Complexity: 
 As we need to maintain an array of length V, the space complexity of the algorithm is O(V).
+
+Dijkstra Algorithm: (A greedy algorithm) 
+	Is a single source shortest path algorithm. Given a vertex it finds the shortest path from the vertex to all other vertices in the graph. Works for both directed and undirected graphs that do not contain negative edges.
+ IDEA: 
+	We initialize the distances of all the vertices from source to infinity and then update the distances of the neighbours of the source node. Next, we choose a vertex that is at the shortest distance from the source node and update the distances of the neighbours from the node. We do this till all the nodes are visited. 
+Then the resulting distances in the array give the shortest distances of vertices from the source node. 
+Let us see an example to see the working of the algorithm.
+Example: 
+Consider the weighted, directed graph given below
+
+Initially the distance of all the vertices from the source is infinity.
+
+Now, we update the distance of the neighbours of node 1. 
+ 
+Then, we move to a neighbour that is at the shortest distance from node 1 that is, node 2.
+
+Now, we update the distance of the neighbours of node 1. 
+
+Then, we move to a neighbour that is at the shortest distance from node 2 that is, node 3.
+
+Now, we update the distance of the neighbours of node 3.
+
+Then, we move to a neighbour that is at the shortest distance from node 3 that is, node 5.
+
+Now, we update the distance of the neighbours of node 5.
+
+Then, we move to a neighbour that is at the shortest distance from node 5 that is, node 4.
+
+Now, we update the distance of the neighbours of node 4.
+
+Then, we move to a neighbour that is at the shortest distance from node 4 that is, node 6.
+
+Now as there are no edges from node 6 we mark node 6 as visited. As all the nodes of the graph are visited. The distance array we get are the shortest distances of the vertices from the source node.
+Algorithm: 
+We maintain a priority queue (min heap) so that we get the vertex with minimum distance from source in O(1). And we also maintain an array that keeps track of the position of the vertex in the priority queue so that we can update the distance in O(1).
+Now, we initialize all the distances of vertices from the source to infinity and the distance of source to 0. And use the UP_Heapify() to heapify the priority queue so that source node is at the root.
+Then, extract the minimum value from the priority queue and swap the min node with the last element of the queue and decrease the size of the queue.Now, we restore the priority queue property by using the Down_heap() function that brings the largest value to the bottom of the priority queue.
+Now, for the neighbours of the min node we update the distance in the priority queue and use UP_Heapify() function to move the lowest value to the top of the priority queue.
+We repeat the above two steps till all the vertices of the priority queue are popped. 
+Now, the distances in the priority queue are the shortest distances of vertices from the source vertex. 
+Pseudo Code:
+Dijkstra(Graph G, int source, int V)
+{
+   edge_weight pque[V]; // creating the priority queue
+   int positions[V];//Array that keep track of positions in priority queue
+   for i in V:     // initializing the distances
+       pque[i].vertex = i+1;
+       positions[i] = i;
+       if(i+1 != s)
+           pque[i].weight = INFINITY;
+       else
+           pque[i].weight = 0;
+  
+   UP_Heapify with respective the source vertex
+   while queue is not empty
+       min_node = extract min value from pque
+       swap(min_node, last node)
+	 Update the position array 
+       size_of_queue--
+       Down_Heapify(root)
+       if(distance(u) != INFINITY) // here u is the vertex of min_node
+           for every (u,v,w) ∈ E   
+               if(distance(v) > distance(u) + w)
+                   distance(v) = distance(u)+w
+                   UP_heapify(v)
+   // printing the distances
+   for(int i = 0; i < V; i++)
+       cout << pque[positions[i]].weight << " ";
+   cout << endl; 
+}
+
+Code Implementation:
+	// vscode 
+Analysis:
+Time Complexity: 
+As the loops are similar to BFS the time complexity will be O(|V|+|E|) but the operations in the loop UP_heapify takes O(log|V|) so, the total time complexity of the Dijkstra Algorithm is O((|V|+|E|)log|V|) i.e, O(|E|log|V|). (since, |V| is less than |E|) 
+The time complexity can be further reduced using Fibonacci heaps to O(|E| + |V|log|V|).
+Space Complexity:
+As we additionally need to maintain a priority queue and an array the space complexity of dijkstra algorithms is O(|V|). 
+Applications:
+In G-Maps to find the shortest path between two locations.
+In social networking websites like facebook to suggest friends.
+Drawbacks: 
+May or may not work on the graphs that have negative edges. To handle these graphs Bellman-Ford Algorithm is used.
+
