@@ -463,4 +463,61 @@ We need O(|E|log|E|) (i.e O(|E|log|V|)) time to sort the list of edges.Then for 
 Space Complexity
 As we are maintain an array to store rank and parent of the vertex this adds O(|V|) of space complexity and O(|E|) space complexity is added while dealing with edges.
 Prim’s Algorithm
-	
+This is similar to the Dijkstra algorithm for finding the shortest path. This algorithm works on undirected graphs but does not work on directed graphs as it assumes all the vertices are connected. In this we partition vertices into two sets. One set contains the vertices that belong to MST and another contains vertices that do not belong to MST. In code we implement this using priority queue(min heap) to reduce the time complexity.
+Algorithm
+We start with an initial vertex and initialize its value to 0 and all other values of the vertices to infinity. We maintain a priority queue that contains the vertices and their corresponding values and the priority queue is maintained based on the values of vertices.
+Now, we pop the vertex that has minimum value from the queue and update the values of its neighbours to the weight of the edge between them if the value of the neighbour is greater than the weight of the edge between them.(Here, the vertex that is popped is part of the MST).
+We repeat the above step till all the vertices are part of the MST(i.e, till the queue is empty).
+Let us see an example to see the working of the algorithm.
+Example
+Consider the undirected graph given below
+
+Consider, node 1 to be the initial vertex then adjacent vertex to node 1 is 3. So we update the distance in the priority queue. (Only vertices with finite value in the priority queue are shown in the diagram).
+
+Now, we pop 1 from the priority queue and select the vertex with minimum value in the queue. Here node 3.
+
+Now, we update the values of neighbours of node 3 that are not part of the queue. Pop node 3 and select a node that has a minimum value in the queue (i.e node 4). 
+
+Now, we update the values of neighbours of node 4 that are not part of the queue. Pop it from the queue and select a node that has a minimum value in the queue (i.e node 5).
+
+As there are no neighbours for node 5 that are part of the queue we pop it from the queue and choose the vertex with minimum value from the queue(i.e, node 2).
+
+This is the resulting MST as all elements of the queue are popped. And the weight of the MST is 10.
+Pseudo Code
+Prims(Graph G)
+{
+   vertex_value priority_q[V]; // creating the priority queue
+   int positions[V];  // array that keep track of positions in priority queue
+   int weight = 0;     // weight of the MST
+   for i in V:     // initializing the distances
+       priority_q[i].vertex = i+1;
+       positions[i] = i;
+       if(i+1 != 1)
+           priority_q[i].value = INFINITY;
+       else
+           priority_q[i] = 0;
+  
+   UP_Heapify with respective the vertex 1
+ 
+   while queue is not empty
+       min_node = extract min value from pque
+       swap(min_node, last node)
+       size_of_queue--
+       Down_Heapify(root)
+ 
+       for v in Adj_list[u]:  // here w is distance between u and v
+           if(value(v) > w)
+               value(v) = w;
+               UP_Heapify(v);
+       weight += min_node.value;
+}
+ 
+Code Implementation
+vscode
+Analysis
+Time Complexity
+As the algorithm is same as dijkstra with a minor modification, the time complexity is same as Dijkstra Algorithm.i.e, O(|E|log|V|).
+Space Complexity 
+As we additionally need to maintain a priority queue and an array the space complexity of Prim’s algorithm is O(|V|).
+// Cycles 
+
