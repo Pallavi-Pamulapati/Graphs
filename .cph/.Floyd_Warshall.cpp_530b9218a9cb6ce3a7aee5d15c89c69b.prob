@@ -1,0 +1,1 @@
+{"name":"Local: Floyd_Warshall","url":"/home/ubuntu/Graphs/Floyd_Warshall.cpp","tests":[{"id":1638208565043,"input":"4 7\n1 2 3\n2 1 8\n1 4 7\n4 1 2\n3 1 5\n3 4 1\n2 3 2","output":"0 3 5 6\n5 0 2 3\n3 6 0 1\n2 5 7 0"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/ubuntu/Graphs/Floyd_Warshall.cpp","group":"local","local":true}

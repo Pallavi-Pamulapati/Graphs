@@ -372,3 +372,95 @@ In social networking websites like facebook to suggest friends.
 Drawbacks: 
 May or may not work on the graphs that have negative edges. To handle these graphs Bellman-Ford Algorithm is used.
 
+Floyd Warshall Algorithm
+	All Pairs shortest path algorithm. This finds the shortest path between all two vertices of the graph. Works on both directed and undirected graphs that contain negative edges but not negative cycles. 
+Algorithm: 
+We represent the graph using an adjacency matrix. And initialize all the distances to infinity and modify the vertex to itself as 0. 
+Then modify the distances based on the given input(distance between two vertices when there are no intermediate vertices). 
+Now, we check whether choosing node 1 as an intermediate vertex reduces the distance between vertices and update the distance if it reduces the distance.
+Now, on the updated matrix we choose node 2 as intermediate matrix and modify the distances. Similarly we perform this for all other vertices in the graph. 
+And the resulting matrix contains the distances of shortest paths from any vertex to other vertex in the graph. This works as we are considering all the intermediate vertices that reduce the path between two vertices.
+Let us see an example to see the working of the algorithm.
+Example: 
+Consider the directed graph G given below.
+
+Initially when no intermediate vertices are considered
+
+Now, when the node 1 is considered the above distance matrix is modified as
+Then on considering node 2 as an intermediate vertex we get
+
+When node 3 is considered as intermediate then the distance matrix is 
+
+Finally on considering node 4 as intermediate vertex, the distance matrix (the final result) is 
+
+Pseudo Code
+void Floyd_Warshall(int** distance)
+for u in V:         // initialize the distance matrix
+   for v in V:
+       if(j == i)
+           distance[i][j] = 0;
+       else
+           distance[i][j] = INFINITY;
+ 
+for (u,v,w) ∈ E:        // When there are no intermediate vertices
+   distance[u][v] = min(w, distance[u][v]);
+ 
+for n in V:     // n is the intermediate node
+   for u in V:     // updating the values of the matrix
+       for v in V:
+           distance[u][v] = min(distance[u][v], distance[u][n] + distance[n][v]);
+
+Code Implementation
+// vscode 
+Analysis
+Time Complexity: 
+As there is a 3 nested for loop and each runs |V| times, the complexity of the Algorithm is O(|V|^3).
+Space Complexity
+As we maintain a 2D matrix (distance array) of size |V+1|*|V+1|, the space complexity of the algorithm is O(|V|^2).
+Applications
+Helps in finding shortest paths
+Used in inversion of real matrices
+To check whether the graph is bipartite or not.
+Spanning Trees
+
+// about spanning trees
+
+Kruskal Algorithm: 
+Used to find a minimum spanning tree in the given graph. Will work both on connected and disconnected graphs but not on directed graphs as it fails to detect cycles in a directed graph.
+Algorithm: 
+We store the input graph as a list of edges and then sort the list in increasing order based on the edge weights.
+Now, we start from the edge with least weight and add the next edge if it does not form a cycle.
+We repeat the step 2 until we add |V|-1 edges (as the minimum spanning tree of a graph has |V|-1 edges).
+Here we detect whether a cycle is present or not by union-find method and to optimize it we use path compression method.
+Let us see an example to see the working of the algorithm.
+Example: 
+Consider the undirected graph G given below.
+
+Now we sort the edges of the graph based on weights and select the edge with minimum weight. Here edge between nodes 1 and 2.
+
+Then we select the next smallest edge that is the edge between nodes 4 and 5 and add it as it does not form a cycle.
+
+Next we select the edge be nodes 2 and 3. As it does not form a cycle we add it.
+
+Then the next smallest edge is between nodes 3 and 4  as it does not form any cycle we add it.
+
+This is the resulting minimum spanning tree as the number of edges of the tree are |V|+1. And the weight of the tree is 10.
+Pseudo Code
+Kruskal(Graph G)
+{
+   sort(list of edges);
+   for (u,v,w) in List_of_Edges
+       find the parent(King :P) of u and v
+       if(parent(u) != parent(v))      // No cycle
+           union(parent(u), parent(v)) based on rank//Increase kingdom
+           add edge to the MST       
+}
+Code Implementation
+// vscode
+Analysis 
+Time Complexity 
+We need O(|E|log|E|) (i.e O(|E|log|V|)) time to sort the list of edges.Then for every edge we perform union based on rank and find along with path compression and this in worst case takes O(log|V|) time. As we do this for all the edges the time complexity to perform this task would be O(|V|log|V|). Thus, total time complexity of the algorithm is O((|V|+|E|)log|V|).
+Space Complexity
+As we are maintain an array to store rank and parent of the vertex this adds O(|V|) of space complexity and O(|E|) space complexity is added while dealing with edges.
+Prim’s Algorithm
+	
