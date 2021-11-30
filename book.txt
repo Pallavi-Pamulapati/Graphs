@@ -520,4 +520,115 @@ As the algorithm is same as dijkstra with a minor modification, the time complex
 Space Complexity 
 As we additionally need to maintain a priority queue and an array the space complexity of Prim’s algorithm is O(|V|).
 // Cycles 
+Refer Depth First Search before this section as this modifies DFS.
+Cycle Detection in Undirected Graph: 
+	As discussed in chapter 1 we use DFS to detect a cycle in the undirected graph. 
+Algorithm: 
+To the DFS_Traversal() we pass an extra argument parent. The parent of the node on which we apply DFS_Traversal().
+Then in DFS_Traversal() we traverse on the adjacent vertices of the node(v). If the adjacent vertex is not visited then we apply DFS_Traveral on that node with v as it’s parent. If the node is visited and it is not the parent of v then it indicates a cycle and we return. Else we move to the next adjacent vertex.
+We repeat this till all the vertices of the graph are visited.
+Lets see the working of the algorithm with an example.
+Example:
+Consider the undirected graph given below.
 
+Now, we start DFS with node 1 and the parent of node 1 is -1 as it is considered as the root vertex. We mark node 1 as seen.
+
+Now, we move to node 3, an adjacent vertex of node 1. As node 3 is unseen we mark it seen and perform DFS_Traversal with node 1 as its parent.
+
+Then we move to node 4, an adjacent vertex of node 3. As node 4 is unseen we mark it as seen and perform DFS_Traversal() with node 3 as parent.
+
+Next we move to node 2, an adjacent vertex of node 4. As node 2 is unseen we mark it as seen and perform DFS_Traversal() with node 4 as parent.
+
+Then, we move to node 1, an adjacent vertex of node 2. As node 1 is seen and it is not the parent of 2, This forms a cycle (1->3->4->2->1). So we return 1 from the function.
+Pseudo Code: 
+DFS(Graph G, int V)
+{
+   // status[i] = 0 => not visited, 1 => seen, 2 => visited
+   int status[V + 1] = {0}; // V = no.of vertices
+   int check = 0;
+   for every vertex v ∈ V  // V = set of vertices of G
+       if(status[v] == 0)
+            check = DFS_Traversal(G, v, status, -1);    // initially the vertex does not have parent
+            if(check == true)
+                return 1;
+   return 0;
+}
+ 
+DFS_Traversal(Graph G, int v, int* status, int parent)
+{
+   status[v] = 1;
+   int check = 0;
+   for every u ∈ Adj[v]      // => there is a vertex from v to u
+       if(status[u] == 0)    // if the vertex is not visited we perform DFS with u as parent
+       {
+           check = DFS_Traversal(G,u,status, v);
+           if(check == 1);   // return if there is a cycle
+               return;
+       }
+       else if neighbour is visited != parent(v)
+           return 1;
+      
+   status[v] = 2;
+ 
+   return 0;
+}
+
+Code Implementation 
+// link
+Analysis
+Time and Space complexity are the same as DFS.
+Cycle Detection in a directed graph: 
+	To detect the cycle in a directed graph we use DFS as discussed in chapter 1. We modify the DFS_Traversal() function.
+Algorithm
+In DFS_Traversal() we while traversing we check whether the adjacent vertex is seen or not.
+If the vertex is seen then it indicates the presence of cycle.So, we return 1 from the function. If the vertex is not seen then we perform DFS_Traversal() on that vertex.
+We repeat this till all the vertices are visited in the graph.
+Let us see the working of the algorithm with an example.
+Example
+Consider the directed graph G given below 
+
+Now, we start DFS_Traversal from Node 1 and mark it as seen.
+
+Then we move to one of the adjacent vertices of node 1 i.e, node 5. And mark it as seen.
+
+As node 5 has only 1 adjacent vertex node 4, we move to node 4 and mark it as seen.
+
+As node 4 has only 1 adjacent vertex node 3, we move to node 3 and mark it as seen.
+
+Now, we move to node 1(adjacent vertex of node 3) as it is already seen. This indicates the presence of a cycle(1->5->4->3->1). 
+Pseudo Code 
+DFS(Graph G, int V)
+{
+  // status[i] = 0 => not visited, 1 => seen, 2 => visited
+   int check = 0;
+   int status[V + 1] = {0}; // V = no.of vertices
+   for every vertex v ∈ V  // V = set of vertices of G
+       if(status[v] == 0)
+            check = DFS_Traversal(G, v, status);    // initially the vertex does not have parent
+            if(check == 1)
+                return 1;
+   return 0;
+}
+DFS_Traversal(Graph G, int v, int* status)
+{
+   status[v] = 1;
+   int check = 0;
+   for every u ∈ Adj[v]      // => there is a vertex from v to u
+       if(status[u] == 0)    // if the vertex is not visited we perform DFS
+       {
+           check = DFS_Traversal(G,u,status);
+           if(check == 1);   // return if there is a cycle
+               return;
+       }
+       else if neighbour is seen
+           return 1;            // we return
+   status[v] = 2;
+   return 0;
+}
+
+Code Implementation
+// vscode
+Analysis
+The Time and space complexities are the same as DFS.
+
+And as discussed in the chapter Shortest Paths we can detect a negative cycle in a graph using Bellman-Ford Algorithm.

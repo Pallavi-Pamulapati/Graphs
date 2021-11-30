@@ -1,32 +1,30 @@
 // DFS(Graph G, int V)
 // {
-//     // status[i] = 0 => not visited, 1 => seen, 2 => visited
-//     int status[V + 1] = {0}; // V = no.of vertices
+//    // status[i] = 0 => not visited, 1 => seen, 2 => visited
 //     int check = 0;
+//     int status[V + 1] = {0}; // V = no.of vertices
 //     for every vertex v ∈ V  // V = set of vertices of G
 //         if(status[v] == 0)
-//              check = DFS_Traversal(G, v, status, -1);    // initially the vertex does not have parent
-//              if(check == true)
+//              check = DFS_Traversal(G, v, status);    // initially the vertex does not have parent
+//              if(check == 1)
 //                  return 1;
 //     return 0;
 // }
 
-// DFS_Traversal(Garph G, int v, int* status, int parent)
+// DFS_Traversal(Graph G, int v, int* status)
 // {
 //     status[v] = 1;
 //     int check = 0;
 //     for every u ∈ Adj[v]      // => there is a vertex from v to u
-//         if(status[u] == 0)    // if the vertex is not visited we perform DFS with u as parent
+//         if(status[u] == 0)    // if the vertex is not visited we perform DFS
 //         {
-//             check = DFS_Traversal(G,u,status, v);
+//             check = DFS_Traversal(G,u,status);
 //             if(check == 1);   // return if there is a cycle
 //                 return;
 //         }
-//         else if neighbour is visited != parent(v)
-//             return 1;
-        
+//         else if neighbour is seen 
+//             return 1;            // we return 
 //     status[v] = 2;
-
 //     return 0;
 // }
 
@@ -35,7 +33,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool DFS_Traversal(vector<vector<int>> &Adj_List, int i, vector<int> &status, int parent)
+bool DFS_Traversal(vector<vector<int>> &Adj_List, int i, vector<int> &status)
 {
     status[i] = 1; 
     int check = 0;
@@ -44,11 +42,11 @@ bool DFS_Traversal(vector<vector<int>> &Adj_List, int i, vector<int> &status, in
     {
         if(status[Adj_List[i][j]] == 0)
         {    
-            check = DFS_Traversal(Adj_List,Adj_List[i][j], status, i);
+            check = DFS_Traversal(Adj_List,Adj_List[i][j], status);
             if(check == 1)
                 return 1;
         }
-        else if(Adj_List[i][j] != parent)
+        else if(Adj_List[i][j] == 1)
             return 1;
     }
 
@@ -63,7 +61,7 @@ bool DFS(vector<vector<int>> &Adj_List, int V)
     for(int i = 1;i < V+1; i++)
     {
         if(status[i] == 0)
-            check = DFS_Traversal(Adj_List, i, status, -1);     // initailly no parent.
+            check = DFS_Traversal(Adj_List, i, status);
         
         if(check == true)
             return true;
@@ -83,8 +81,7 @@ int main(void)
     for(int i = 0; i < E;i++)
     {
         cin >> u >> v; 
-        Adj_List[u].push_back(v);       // => there is edge betweem u and v
-        Adj_List[v].push_back(u);    
+        Adj_List[u].push_back(v);       // => there is edge betweem u and v    
     }
 
     int check = DFS(Adj_List, V); 
