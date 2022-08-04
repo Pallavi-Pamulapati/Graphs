@@ -12,7 +12,7 @@
 // DFS_Traversal(Garph G, int v, int* status)
 // {
 //     status[v] = 1;
-//     for every u ∈ Adj[v]      // => there is a vertex from v to u
+//     for every u ∈ Adj[v]      // => there is an edge from v to u
 //         if(status[u] == 0)
 //             DFS_Traversal(G,u,status);
 //     status[v] = 2;
